@@ -5,35 +5,49 @@ import axios from 'axios'
 import { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 
+
 export function Home () {
     const [pokemons, setPokemons] = useState([]);
+    const [page, setPage] = useState(1)
+    
     useEffect(() => {
         getPokemons();
     }, [])
 
     async function getPokemons () {
         var endpoints = [];
-        for(let i = 1; i < 50; i++){
+        for(let i = 1; i < 200; i++){
             endpoints.push(`https://pokeapi.co/api/v2/pokemon/${i}`)
         }
         await axios.all(endpoints.map((endpoint) => axios.get(endpoint))).then((res) => setPokemons(res));
         
-        // await axios.get("https://pokeapi.co/api/v2/pokemon?limit=50")
-        // .then((res) => {setPokemons(res.data.results)})
-        // .catch((err) => {console.log(err)});
+    }
+    function pokemonFilter(search) {
+        if(search === "") getPokemons() // ao apagar o campo de busca, traz todos os pokemons novamente
+        
+        const filteredPokemons = pokemons.filter((pokemon) => {
+            return pokemon.data.name.includes(search);
+        })
+        setPokemons(filteredPokemons)
+    }
+    function handleChange(e, p) {
+
     }
 
     return (
         <>
-        <Navbar />
+        <Navbar pokemonFilter={pokemonFilter}/>
         <Container maxWidth="xg">
             <Grid container>
                 {pokemons.map((pokemon) => (
-                    <Grid item xs={2}>
-                        <PokemonCard name={pokemon.data.name} image={pokemon.data.sprites.front_default} />
+                    <Grid item xs={12} sm={6} md={4} lg={2} padding="1em">
+                        <PokemonCard 
+                            name={pokemon.data.name} 
+                            image={pokemon.data.sprites.front_default}
+                            types={pokemon.data.types} />
                     </Grid>
+                    
                 ))}
-                
             </Grid>
         </Container>
         </>

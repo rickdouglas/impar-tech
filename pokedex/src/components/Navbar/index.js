@@ -51,10 +51,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Navbar() {
+export default function Navbar({pokemonFilter}) {
   return (
-    <Box sx={{ flexGrow: 1, marginBottom:"1.5em" }}>
-      <AppBar position="static" sx={{backgroundColor: "#4B0082"}}>
+    <Box sx={{ flexGrow: 1, marginBottom:"5em" }}>
+      <AppBar position="fixed" sx={{backgroundColor: "#4B0082"}}>
         <Toolbar>
             <Box display='flex' justifyContent="space-between" width='100%'>
                 <Box component='img' src='pokemon_logo.png' height='2em' />
@@ -66,16 +66,16 @@ export default function Navbar() {
                 paddingLeft="1em">
                     Teste Impar Tech
                 </Typography>
-                <Search>
+                <Search onChange={(e) => pokemonFilter(e.target.value)}>
                     <SearchIconWrapper>
-                    <SearchIcon />
+                        <SearchIcon />
                     </SearchIconWrapper>
                     <StyledInputBase
                     placeholder="Digite aqui sua busca"
                     inputProps={{ 'aria-label': 'search' }}
                     />
                 </Search>
-          </Box>
+            </Box>
         </Toolbar>
       </AppBar>
     </Box>

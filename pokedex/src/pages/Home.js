@@ -4,12 +4,11 @@ import Navbar from "../components/Navbar";
 import axios from 'axios'
 import { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
+import { AppPagination } from "../components/Pagination";
 
 
 export function Home () {
-    const [pokemons, setPokemons] = useState([]);
-    const [page, setPage] = useState(1)
-    
+    const [pokemons, setPokemons] = useState([]);    
     useEffect(() => {
         getPokemons();
     }, [])
@@ -30,9 +29,6 @@ export function Home () {
         })
         setPokemons(filteredPokemons)
     }
-    function handleChange(e, p) {
-
-    }
 
     return (
         <>
@@ -49,6 +45,7 @@ export function Home () {
                     
                 ))}
             </Grid>
+            <AppPagination />
         </Container>
         </>
     )
